@@ -1,0 +1,105 @@
+﻿
+@inject IServices<Product> proservices
+@inject IServices<Category> categoryserve
+@page "/pro/Edit/{id:int}"
+<h3>ProductEdit</h3>
+@if (pro != null)
+{
+    <style>
+     body
+     {
+         background-image:url("https://static.vecteezy.com/system/resources/previews/001/872/837/non_2x/abstract-dark-blue-geometric-polygonal-form-background-vector.jpg")
+     }
+        .cont
+        {
+            background-color:white;
+            color:black
+
+        }
+    </style>
+     <body>
+    <div class="cont col-4 d-inline-block m-5  " style="background-color:#00002e;color:white  ;border-radius:10px ;width:500px;height:400px;position:center">
+        <EditForm Model="pro" OnValidSubmit="Save" >
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+            <div>
+                <label>Name</label>
+                <InputText @bind-Value="pro.Name" class="form-control w-100"></InputText>
+                <ValidationMessage For="()=>pro.Name" class="text-danger"></ValidationMessage>
+                @*<ValidationMessage For=@(()=>Employee.Name)></ValidationMessage>*@
+            </div>
+            <div>
+                <label>Description</label>
+                <InputText @bind-Value="pro.Description" class="form-control w-100"></InputText>
+                <ValidationMessage For="()=>pro.Description" class="text-danger"></ValidationMessage>
+                @*<ValidationMessage For=@(()=>Employee.Name)></ValidationMessage>*@
+            </div>
+            <div>
+                <label>Price</label>
+                <InputNumber @bind-Value="pro.Price" class="form-control w-100"></InputNumber>
+                <ValidationMessage For="()=>pro.Price" class="text-danger"></ValidationMessage>
+
+            </div>
+            <div>
+                <label>Image</label>
+                <InputText @bind-Value="pro.img" class="form-control w-100"></InputText>
+                <ValidationMessage For="()=>pro.img" class="text-danger"></ValidationMessage>
+            </div>
+            <div>
+                <label>Category</label>
+                @*<InputNumber @bind-Value="Employee.Dept_Id" class="form-control"></InputNumber>*@
+                <InputSelect @bind-Value="pro.CategoryId" class="form-control w-100">
+                    @foreach (var item in cat)
+                    {
+                    <option value="@item.Id">@item.Name</option>
+                    }
+            </InputSelect>
+            <ValidationMessage For="()=>pro.CategoryId" class="text-danger"></ValidationMessage>
+
+        </div>
+        <input type="submit" value="Update" class="btn btn-success w-25 mt-2">
+        <a href="/admin" class="btn btn-primary w-35 mt-2 ">back to admin</a>
+
+    </EditForm>
+
+</div>
+</body>
+}
+else
+{
+    <h3>Product Not Found</h3>
+}
+@code {
+	[Inject]
+	public NavigationManager navmang{ get; set; }
+    
+	[Parameter]
+	public int id { get; set; }
+
+
+
+	public Product pro { get; set; }
+	public List <Category>  cat  {get;set;}
+
+
+
+	protected async override Task OnInitializedAsync()
+	{
+		pro=await proservices.GetByID(id);
+		cat=await categoryserve.GetAll();
+		Console.Write(pro);
+	 await base.OnInitializedAsync();
+
+	}
+	public void Save()
+	{ 
+        
+		proservices.Update(id ,pro);
+		 
+		navmang.NavigateTo("/Product");
+
+
+		Console.WriteLine("Data Served");
+	}
+	
+}

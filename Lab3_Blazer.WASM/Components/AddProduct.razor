@@ -1,0 +1,78 @@
+﻿@page "/NewProduct"
+
+@inject IServices<Product> productservices
+@inject IServices<Category> categoryservices
+@inject NavigationManager navManager
+<style>
+    .container
+    {
+        background-image:url("https://th.bing.com/th/id/OIP.WEaRHuDVQC4ng3P0C4sDhgHaFj?pid=ImgDet&rs=1")
+    }
+</style>
+   <div class="container w-50 " style="background-color:darkgray ;border-radius:10px">      
+<EditForm Model="@pro" OnValidSubmit="@Save">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+   <div>
+        <label> Name</label>
+            
+            <InputText @bind-Value="pro.Name"class="form-control" />
+        
+</div> 
+   <div>
+        <label>Description  </label>
+            <InputText @bind-Value="pro.Description" class="form-control"/>
+       </div>
+    
+<div>
+        <label>Price</label>
+            <InputNumber @bind-Value="pro.Price" class="form-control"></InputNumber>
+
+    </div>    
+        
+   <div>
+        <label> Image </label>
+            
+            <InputText @bind-Value="pro.img" class="form-control" />
+      
+    </div>
+   
+        <label>Category</label>
+                @*<InputNumber @bind-Value="Employee.Dept_Id" class="form-control"></InputNumber>*@
+                <InputSelect @bind-Value="pro.CategoryId" class="form-control w-50">
+                    @foreach (var item in cat)
+                    {
+                    <option value="@item.Id">@item.Name</option>
+                    }
+            </InputSelect>
+            <ValidationMessage For="()=>pro.CategoryId" class="text-danger"></ValidationMessage>
+
+    <button type="submit" class="btn btn-success m-3 form-control" >Add </button>
+</EditForm>
+  </div>
+  
+@code {
+   
+    public Product pro{get; set;}= new Product();
+    public List<Category> cat { get; set; } = new List<Category>(); 
+
+	protected async override Task OnInitializedAsync()
+	{
+	
+		cat=await categoryservices.GetAll();
+		
+	    await base.OnInitializedAsync();
+
+	}
+	public async Task Save()
+	{ 
+        
+		await productservices.Insert(pro);
+		 
+		navManager.NavigateTo("/Product");
+
+
+		Console.WriteLine("Data Served");
+	}
+}

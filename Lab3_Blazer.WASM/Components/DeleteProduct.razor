@@ -1,0 +1,25 @@
+﻿@using Lab3_Blazer.shared
+@using Lab3_Blazer.WASM.Services
+@inject IServices<Product> prodservices
+@inject IServices<Category> catservices
+@page "/deletepro"
+<h3>DeleteProduct</h3>
+
+@code {
+	[Parameter]
+	public int id { get; set; }
+	public NavigationManager navmag { get; set; }
+	public Product pro{ get; set; }
+
+	public void Save()
+	{ 
+        
+		prodservices.Delete(id);
+		 
+		navmag.NavigateTo("/Product");
+
+
+		Console.WriteLine("Data Served");
+	}
+
+}

@@ -1,0 +1,60 @@
+﻿@page "/admin"
+@using Lab3_Blazer.shared
+@using Lab3_Blazer.WASM.Services
+@inject IServices<Product> proservices
+<div>
+    <i class='fa fa-plus'></i>
+    <a href="/NewProduct"class="btn btn-primary mb-5">+</a>
+</div>
+@if(prodlist !=null)
+{
+
+<table class="table table-white ">
+  <thead>
+    <tr>
+      <th scope="col">name</th>
+      <th scope="col">info</th>
+      <th scope="col">price</th>
+      <th scope="col">Image</th>
+      <th scope="col">Edit_Product</th>
+      <th scope="col">Delete_Product</th>
+    </tr>
+  </thead>
+    <tbody>
+        
+@foreach(var item in prodlist)
+{
+
+ <tr>
+    
+      <td>@item.Name</td>
+      
+      
+      <td>@item.Description</td>
+
+      <td>@item.Price</td>
+      <td><img style="width:30px" src="/Images/@item.img"/></td>
+       <td><a href="/pro/Edit/@item.Id">edit</a></td>
+       <td><button @onclick="(()=>handleDelete(item.Id))" class="btn btn-danger" >delete</button></td>
+  </tr>
+ 
+
+}
+  </tbody>
+</table>
+
+
+}
+@code {
+    public List<Product> prodlist { get; set; }
+    protected async  override Task OnInitializedAsync()//pareter /inject 
+    {
+        prodlist= await proservices.GetAll();
+        await  base.OnInitializedAsync();
+    }
+    public async Task handleDelete(int id)
+    {
+        proservices.Delete(id);
+    }
+}
+

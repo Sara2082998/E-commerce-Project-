@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "f8bf802f-9178-4927-b66c-79586c4777ea": {
+      "ProjectGuid": "f8bf802f-9178-4927-b66c-79586c4777ea",
+      "DisplayName": "Lab3_Blazer.shared",
+      "ColorIndex": 0
+    },
+    "c53ae630-3469-45ae-939a-092ba5512636": {
+      "ProjectGuid": "c53ae630-3469-45ae-939a-092ba5512636",
+      "DisplayName": "Lab3_Blazer.WebAPI",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "aa8604f5-a6b3-4fc0-a8b9-b59d43728f90": {
+      "ProjectGuid": "aa8604f5-a6b3-4fc0-a8b9-b59d43728f90",
+      "DisplayName": "Lab3_Blazer.WASM",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
